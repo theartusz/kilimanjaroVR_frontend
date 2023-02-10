@@ -1,12 +1,14 @@
 from flask import Flask, render_template
 from pymongo import MongoClient
-import os
+from dotenv import load_dotenv
 import pandas as pd
+import os
 
 app = Flask(__name__)
 
-MONGODB_PASSWORD = os.environ['MONGODB_PASSWORD']
-MONGODB_USER = os.environ['MONGODB_USER']
+load_dotenv()
+MONGODB_PASSWORD = os.getenv('MONGODB_PASSWORD')
+MONGODB_USER = os.getenv('MONGODB_USER')
 
 # connect to database
 conn_str = ('mongodb+srv://'+MONGODB_USER+':'+MONGODB_PASSWORD+'@cluster0.2r2cif0.mongodb.net/?retryWrites=true&w=majority')
@@ -22,5 +24,8 @@ df =  pd.DataFrame(list(cursor))
 del df['_id']
 
 @app.route('/')
-def hello():
+def home():
     return render_template('home.html', df=df)
+
+if __name__ == "__main__":
+    app.run(debug=True)
