@@ -16,15 +16,14 @@ client = MongoClient(conn_str, connectTimeoutMS=30000, socketTimeoutMS=None, con
 db = client['Kilimanjaro_VR']
 coll = db['data']
 
-# Make a query to the specific DB and Collection
-cursor = coll.find({})
-# Expand the cursor and construct the DataFrame
-df =  pd.DataFrame(list(cursor))
-# Delete the _id
-del df['_id']
-
 @app.route('/')
 def home():
+    # Make a query to the specific DB and Collection
+    cursor = coll.find({})
+    # Expand the cursor and construct the DataFrame
+    df =  pd.DataFrame(list(cursor))
+    # Delete the _id
+    del df['_id']
     return render_template('home.html', df=df)
 
 if __name__ == "__main__":
