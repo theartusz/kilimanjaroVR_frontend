@@ -21,10 +21,15 @@ def home():
     # Make a query to the specific DB and Collection
     cursor = coll.find({})
     # Expand the cursor and construct the DataFrame
-    df =  pd.DataFrame(list(cursor))
+    df = pd.DataFrame(list(cursor))
     # Delete the _id
     del df['_id']
+    # convert epoch time to just the date
+    df['date'] = pd.to_datetime(df['date'], unit='s').dt.date
     return render_template('home.html', df=df)
+
+def week_summary():
+    return
 
 if __name__ == "__main__":
     app.run(debug=True)
