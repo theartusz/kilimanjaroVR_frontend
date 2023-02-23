@@ -2,28 +2,52 @@
 {% block content %}
 
 <div class="container">
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Distance</th>
-        <th scope="col">Athlete</th>
-        <th scope="col">Sport Type</th>
-        <th scope="col">Date</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for index, row in df.iterrows() %}
-      <tr>
-        <th scope="row">{{ index }}</th>
-        <th>{{ row['recalculated_distance'] }}</th>
-        <th>{{ row['athlete_first_name'] }} {{ row['athlete_last_name'] }}</th>
-        <th>{{ row['activity_type'] }}</th>
-        <th>{{ row['date'] }}</th>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+  <div class="row">
+    <div class="col">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Distance</th>
+            <th scope="col">Athlete</th>
+            <th scope="col">Sport Type</th>
+            <th scope="col">Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for index, row in df.iterrows() %}
+          <tr>
+            <th scope="row">{{ index }}</th>
+            <th>{{ row['recalculated_distance'] }}</th>
+            <th>{{ row['athlete_first_name'] }} {{ row['athlete_last_name'] }}</th>
+            <th>{{ row['activity_type'] }}</th>
+            <th>{{ row['date'] }}</th>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div class="col-3">
+      <form method="POST">
+        <div class="form-group">
+          {{ form.hidden_tag() }}
+          {{ form.date_from.label(class="form-label") }}
+          {{ form.date_from(class="form-control") }}
+          <br/>
+          {{ form.date_to.label(class="form-label") }}
+          {{ form.date_to(class="form-control") }}
+          <br/>
+          {{ form.athlete_full_name.label(class="form-label") }}
+          {{ form.athlete_full_name(class="form-select")}}
+          <br/>
+          {{ form.activity_type.label(class="form-label") }}
+          {{ form.activity_type(class="form-select") }}
+          <br/>
+          {{ form.submit(class="btn btn-primary") }}
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
 
 {% endblock %}
