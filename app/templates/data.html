@@ -8,10 +8,10 @@
         <thead>
           <tr>
             <th scope="col">#</th>
-            <th scope="col">Distance</th>
-            <th scope="col">Athlete</th>
-            <th scope="col">Sport Type</th>
-            <th scope="col">Date</th>
+            <th scope="col">Dystans</th>
+            <th scope="col">Sportowiec</th>
+            <th scope="col">Aktivita</th>
+            <th scope="col">Data</th>
           </tr>
         </thead>
         <tbody>
@@ -19,7 +19,7 @@
           <tr>
             <th scope="row">{{ index }}</th>
             <th>{{ row['recalculated_distance'] }}</th>
-            <th>{{ row['athlete_first_name'] }} {{ row['athlete_last_name'] }}</th>
+            <th>{{ row['athlete_full_name'] }}</th>
             <th>{{ row['activity_type'] }}</th>
             <th>{{ row['date'] }}</th>
           </tr>

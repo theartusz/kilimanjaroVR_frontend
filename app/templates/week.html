@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col">
+      {% for week in weeks %}
+      <h1>Week: {{ week }}</h1>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Sportowiec</th>
+            <th scope="col">Pon</th>
+            <th scope="col">Wto</th>
+            <th scope="col">Sro</th>
+            <th scope="col">Czw</th>
+            <th scope="col">Pio</th>
+            <th scope="col">Sob</th>
+            <th scope="col">Nie</th>
+            <th scope="col">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for index, row in df[df["Year-Week"] == week].iterrows() %}
+          <tr>
+            <th>{{ row['athlete_full_name'] }}</th>
+            <th>{{ row['Monday'] }}</th>
+            <th>{{ row['Tuesday'] }}</th>
+            <th>{{ row['Wednesday'] }}</th>
+            <th>{{ row['Thursday'] }}</th>
+            <th>{{ row['Friday'] }}</th>
+            <th>{{ row['Saturday'] }}</th>
+            <th>{{ row['Sunday'] }}</th>
+            <th>{{ row['weekly_total'] }}</th>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}
