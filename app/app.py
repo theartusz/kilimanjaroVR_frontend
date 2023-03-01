@@ -1,11 +1,10 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template
 from pymongo import MongoClient
 from dotenv import load_dotenv
 from flask_wtf import FlaskForm
 from wtforms import DateField, SelectField, SubmitField
 import pandas as pd
 import os
-from datetime import datetime
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'sh!'
@@ -28,7 +27,7 @@ class FilterForm(FlaskForm):
     submit = SubmitField('Filtruj')
 
 def get_data(date_from=None, date_to=None, athlete_name=None, activity_type=None):
-    # convert data and add 1 day to date_to
+    # convert date to int and add 1 day to date_to
     if date_from:
         date_from = int(date_from.strftime('%s'))
     if date_to:
@@ -57,10 +56,13 @@ def get_data(date_from=None, date_to=None, athlete_name=None, activity_type=None
 
 @app.route('/data', methods=['post','get'])
 def data():
+    # create list with names of all athletes
     athlete_full_names = coll.distinct("athlete_full_name")
     athlete_full_names.append("wszyscy")
+    # invoke form and select default choices
     form = FilterForm(athlete_full_name='wszyscy', activity_type='wszystko')
     form.athlete_full_name.choices = athlete_full_names
+
     df = get_data(
         date_from=form.date_from.data,
         date_to=form.date_to.data,
@@ -68,7 +70,6 @@ def data():
         activity_type=form.activity_type.data
     )
     df['date'] = pd.to_datetime(df['datetime'], unit='s').dt.date
-    print(df)
     return render_template('data.html', df=df, form=form)
 
 @app.route('/')
@@ -77,7 +78,8 @@ def week_summary():
         date_from=None,
         date_to=None,
         athlete_name="wszyscy",
-        activity_type="wszystko")
+        activity_type="wszystko"
+        )
     # add week_start column
     df['week_start'] =  df['datetime'].dt.to_period('W').dt.start_time
     # Set the date column as the index

@@ -20,7 +20,8 @@
           </tr>
         </thead>
         <tbody>
-          {% for index, row in df[df["Year-Week"] == week].iterrows() %}
+          {% for index in df[df["Year-Week"] == week].index %}
+            {% set row = df.loc[index] %}
           <tr>
             <th>{{ row['athlete_full_name'] }}</th>
             <th>{{ row['Monday'] }}</th>

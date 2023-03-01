@@ -15,7 +15,8 @@
           </tr>
         </thead>
         <tbody>
-          {% for index, row in df.iterrows() %}
+          {% for index in df.index %}
+            {% set row = df.loc[index] %}
           <tr>
             <th scope="row">{{ index }}</th>
             <th>{{ row['recalculated_distance'] }}</th>
