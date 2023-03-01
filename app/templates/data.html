@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Dystans</th>
+            <th scope="col">Sportowiec</th>
+            <th scope="col">Aktivita</th>
+            <th scope="col">Data</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for index in df.index %}
+            {% set row = df.loc[index] %}
+          <tr>
+            <th scope="row">{{ index }}</th>
+            <th>{{ row['recalculated_distance'] }}</th>
+            <th>{{ row['athlete_full_name'] }}</th>
+            <th>{{ row['activity_type'] }}</th>
+            <th>{{ row['date'] }}</th>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div class="col-3">
+      <form method="POST">
+        <div class="form-group">
+          {{ form.hidden_tag() }}
+          {{ form.date_from.label(class="form-label") }}
+          {{ form.date_from(class="form-control") }}
+          <br/>
+          {{ form.date_to.label(class="form-label") }}
+          {{ form.date_to(class="form-control") }}
+          <br/>
+          {{ form.athlete_full_name.label(class="form-label") }}
+          {{ form.athlete_full_name(class="form-select")}}
+          <br/>
+          {{ form.activity_type.label(class="form-label") }}
+          {{ form.activity_type(class="form-select") }}
+          <br/>
+          {{ form.submit(class="btn btn-primary") }}
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
